@@ -1,0 +1,80 @@
+qiuping@smartx.com
+1. 实现统计一篇英文文章内每个单词的出现频率，并返回出现频率最高的前10个单词及其出现次数
+45mins
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<vector>
+#include<map>
+#include<string>
+#include<iostream>
+#include<algorithm>
+
+using namespace std;
+
+
+map<string, int> count(vector<string> str) {//统计单词出现的频率
+	map<string, int> m;
+	for (int i = 0; i < str.size(); i++) {
+		if (m.find(str[i]) == m.end()) {
+			m[str[i]] = 1;
+		}
+		else {
+			m[str[i]]++;
+		}
+	}
+	return m;
+}
+
+static bool cmp(pair<string, int>& a, pair<string, int>& b) {
+	return a.second < b.second;
+}
+
+void swap(vector<pair<string, int>>& data, int a, int b) {
+	pair<string, int> temp = data[a];
+	data[a] = data[b];
+	data[b] = temp;
+}
+
+void adjustheap(vector<pair<string, int>>& data, int i, int length) {//从i向下调整堆
+	pair<string, int> temp = data[i];//先取出第i个元素
+	for (int k = i * 2 + 1; k < length; k = k * 2 + 1) {
+		if (k + 1 < length && cmp(data[k], data[k + 1]))//选子节点中大的
+			k++;
+		if (cmp(temp, data[k])) {
+			data[i] = data[k];
+			i = k;
+		}
+		else {
+			break;
+		}
+	}
+	data[i] = temp;//把temp放到最终的位置
+}
+
+void buildheap(vector<pair<string, int>>& data) {//构建大顶堆
+	for (int i = data.size() / 2 - 1; i >= 0; i--) {
+		adjustheap(data, i, data.size());
+	}
+	
+}
+
+
+
+
+void main() {
+	vector<string> str = { "hello","I","I","am","I","am","the","a","I","put","delete","get","post","cat","dog","I","toelf","gre" };
+	map<string, int> m = count(str);
+	vector<pair<string, int>> data(m.begin(), m.end());
+	buildheap(data);//构建大顶堆
+	int topk = 10<data.size()?10:data.size();
+	vector<pair<string, int>> res;//存前10
+	for (int i = 0,j=data.size()-1; i < topk;i++,j--) {//取前10个最大出现频率单词
+		res.push_back(data[0]);
+		swap(data, 0, j);
+		adjustheap(data, 0, j);
+	}
+	for (int i = 0; i < topk; i++) {
+		cout << res[i].first << "  " << res[i].second << endl;
+	}
+}
