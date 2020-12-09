@@ -2,11 +2,11 @@ package config
 
 const (
 	// OSSBucket : oss bucket名
-	OSSBucket = "heiyelideheimiao"
+	OSSBucket = "******"
 	// OSSEndpoint : oss endpoint
 	OSSEndpoint = "oss-cn-beijing.aliyuncs.com"
 	// OSSAccesskeyID : oss访问key
-	OSSAccesskeyID = "LTAI4G5gSprxgPVhBn5wJaEE"
+	OSSAccesskeyID = "*******"
 	// OSSAccessKeySecret : oss访问key secret
-	OSSAccessKeySecret = "WGaFjeFfGzpxmqk2XV0LYiaDvX2cQa"
+	OSSAccessKeySecret = "*********"
 )
